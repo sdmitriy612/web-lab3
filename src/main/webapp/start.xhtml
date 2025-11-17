@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Стартовая страница</title>
+    <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/assets/css/start.css" />
+</head>
+
+<body>
+    <div class="header">
+        <h1>Санатин Дмитрий Павлович</h1>
+        <p>Группа: P3217</p>
+        <p>Вариант: 2314</p>
+    </div>
+
+    <main>
+        <div class="clock-container">
+            <div class="clock" id="clock">00.00.0000 00:00:00</div>
+        </div>
+
+        <div class="link-container">
+            <h:form>
+                <h:commandButton value="Перейти к приложению" styleClass="main-link" action="index" />
+            </h:form>
+            <p class="update-info">Часы обновляются каждые 13 секунд</p>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/assets/scripts/start.js"></script>
+</body>
+</html>

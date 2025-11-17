@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'dmitriy'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JSF
+    implementation 'org.glassfish:jakarta.faces:4.0.0'
+
+    // PrimeFaces
+    implementation 'org.primefaces:primefaces:13.0.0:jakarta'
+
+    // Servlet
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+
+    // CDI (для WildFly)
+    compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.0'
+
+    // Для аннотаций
+    compileOnly 'jakarta.annotation:jakarta.annotation-api:2.1.0'
+
+    implementation 'org.eclipse.persistence:eclipselink:4.0.6'
+    implementation 'org.postgresql:postgresql:42.7.3'
+
+}
+
+war {
+    archiveFileName = 'app.war'
+}

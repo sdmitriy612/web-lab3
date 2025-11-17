@@ -1,0 +1,239 @@
+body {
+    font-family: Arial, serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 0 10%;
+}
+
+.top-block {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Шапка */
+.header {
+    color: darkblue;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1, .header p {
+    margin: 10px;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.form-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.form-block #data-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#graph-svg {
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: white;
+    transition: all 0.3s ease;
+    cursor: crosshair;
+}
+
+#graph-svg:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.graph-point {
+    transition: all 0.2s ease;
+}
+
+.graph-point:hover {
+    r: 5;
+}
+
+.form-block .form-group {
+    margin: 5% 0 0 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.form-block .form-group label,
+.form-block .form-group span {
+    margin-bottom: 5px;
+    text-align: right;
+    width: 100%;
+}
+
+.radio-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Поля формы */
+.form-block input,
+.form-block select,
+.form-block button {
+    border: 1.5px #444 solid;
+    border-radius: 5px;
+    margin: 2%;
+    padding: 0.5em;
+}
+
+.form-block .error-text.active {
+    color: rgb(226 1 1);
+    user-select: all;
+}
+
+.form-block .error-text {
+    color: transparent;
+    margin: 0;
+    user-select: none;
+    font-size: 12px;
+}
+
+.form-block input.error,
+.form-block select.error {
+    border-color: rgb(226 1 1);
+}
+
+.form-block select {
+    width: 100%;
+}
+
+.form-block button {
+    cursor: pointer;
+}
+
+.form-block .clean-btn {
+    background-color: #f44336;
+    color: white;
+    transition: 200ms ease;
+}
+
+.form-block .clean-btn:hover {
+    background-color: #d32f2f;
+}
+
+.form-block .submit-btn {
+    transition: 200ms ease;
+    background-color: darkblue;
+    color: white;
+}
+
+.form-block .submit-btn:hover {
+    background-color: blue;
+}
+
+.form-block .submit-btn.disabled {
+    background-color: rgba(255, 255, 255, 0.567);
+    color: black;
+    opacity: 0.7;
+    cursor: default;
+}
+
+.form-block .form-group label {
+    min-width: 64px;
+}
+
+.form-block .form-group span {
+    width: 100%;
+}
+
+.form-block .buttons-group {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+/* Псевдокласс */
+.form-block input:hover,
+.form-block select:hover {
+    border-color: blue;
+}
+
+/* Селектор атрибута */
+.form-block input[type="radio"] {
+    margin: 1%;
+}
+
+/* Таблица */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+.result h2 {
+    text-align: center;
+}
+
+/* Каскадирование */
+.result-table td,
+.result-table th {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: center;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Дополнительно для JSF компонентов */
+.hit-yes {
+    color: green;
+    font-weight: bold;
+}
+
+.hit-no {
+    color: red;
+    font-weight: bold;
+}
+
+/* Слайдер Y - исправляем отображение */
+.slider-value {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: darkblue;
+    text-align: center;
+    margin: 5px 0;
+}
+
+/* PrimeFaces slider - делаем видимым */
+.ui-slider {
+    width: 100% !important;
+    height: 8px !important;
+    background: #ddd !important;
+    border-radius: 4px !important;
+    margin: 10px 0 !important;
+}
+
+.ui-slider .ui-slider-handle {
+    width: 18px !important;
+    height: 18px !important;
+    background: darkblue !important;
+    border: 2px solid #fff !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    top: -5px !important;
+}
+
+.ui-slider .ui-slider-range {
+    background: darkblue !important;
+}

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8" />
+    <title>Лабораторная работа 3</title>
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputScript library="scripts" name="graph.js" target="head" />
+    <h:outputScript library="scripts" name="main.js" />
+</h:head>
+
+<h:body>
+    <div class="header">
+        <h:form>
+            <h:commandButton value="Стартовая страница" styleClass="main-link" action="start" />
+        </h:form>
+    </div>
+
+    <h:form id="form">
+        <p:growl id="messages" showDetail="true" />
+
+        <main>
+            <div class="top-block">
+                <div class="graph">
+                    <h2>График функции</h2>
+                    <svg id="graph-svg" width="400" height="400" viewBox="-200 -200 400 400"
+                         xmlns="http://www.w3.org/2000/svg" onclick="handleGraphClick(event)">
+                    </svg>
+                </div>
+
+                <div class="form-block">
+                    <h2>Ввод данных</h2>
+
+                        <div class="form-group">
+                            <h:outputLabel for="x" value="Выберите X:" />
+                            <h:inputText id="x" value="#{formBean.x}"
+                                        required="true"
+                                        requiredMessage="Введите значение X"
+                                        validatorMessage="X должен быть в диапазоне [-3; 5]">
+                                <f:validateDoubleRange minimum="-3" maximum="5" />
+                            </h:inputText>
+                            <h:message for="x" styleClass="error-text" />
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="y" value="Введите Y (слайдер):" />
+                            <h:outputText value="#{formBean.y}" id="yValue" styleClass="slider-value" />
+                            <p:slider for="yInput" minValue="-2" maxValue="2" step="0.5"
+                                    style="width: 100%" onSlideEnd="updateYValue()" />
+                            <h:inputHidden id="yInput" value="#{formBean.y}"
+                                        validatorMessage="Y должен быть в диапазоне [-2; 2]">
+                                <f:validateDoubleRange minimum="-2" maximum="2" />
+                            </h:inputHidden>
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel for="r" value="Выберите R:" />
+                            <h:selectOneMenu id="r" value="#{formBean.r}"
+                                            required="true"
+                                            requiredMessage="Выберите значение R"
+                                            onchange="updateGraph()">
+                                <f:selectItem itemValue="1" itemLabel="1" />
+                                <f:selectItem itemValue="1.5" itemLabel="1.5" />
+                                <f:selectItem itemValue="2" itemLabel="2" />
+                                <f:selectItem itemValue="2.5" itemLabel="2.5" />
+                                <f:selectItem itemValue="3" itemLabel="3" />
+                            </h:selectOneMenu>
+                            <h:message for="r" styleClass="error-text" />
+                        </div>
+
+                        <div class="buttons-group">
+                            <p:commandButton value="Отправить"
+                                            action="#{formBean.checkPoint}"
+                                            update="resultsTable messages"
+                                            oncomplete="redrawAllPoints()"
+                                            ajax="true"
+                                            styleClass="submit-btn" />
+                            <p:commandButton value="Очистить форму"
+                                            action="#{formBean.clearForm}"
+                                            update="form"
+                                            process="@this"
+                                            ajax="true"
+                                            styleClass="clean-btn" />
+                            <p:commandButton value="Очистить результаты"
+                                            action="#{formBean.clearResults}"
+                                            update="resultsTable"
+                                            oncomplete="updateGraph()"
+                                            process="@this"
+                                            ajax="true"
+                                            styleClass="clean-btn" />
+                        </div>
+                        
+                        <!-- Скрытые поля для графика -->
+                        <h:inputHidden id="graphX" value="#{formBean.graphX}" />
+                        <h:inputHidden id="graphY" value="#{formBean.graphY}" />
+
+                        <!-- Скрытая кнопка для отправки с графика -->
+                        <h:commandButton id="submitGraph" action="#{formBean.checkPointFromGraph}" style="display: none;">
+                            <f:ajax execute="graphX graphY r" render="resultsTable messages" onevent="handleAjaxComplete" />
+                        </h:commandButton>
+                </div>
+            </div>
+
+            <div class="result">
+                <h2>Результаты</h2>
+                <h:dataTable id="resultsTable"
+                            value="#{formBean.results}"
+                            var="res"
+                            styleClass="result-table">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{res.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{res.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{res.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Попадание</f:facet>
+                        <h:outputText value="#{res.hit ? 'Да' : 'Нет'}"
+                                     styleClass="#{res.hit ? 'hit-yes' : 'hit-no'}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Дата запроса</f:facet>
+                        #{res.currentTime}
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </main>
+    </h:form>
+</h:body>
+</html>
