@@ -89,7 +89,12 @@ function updateYValue() {
     const yInput = document.getElementById('form:yInput');
     const yValue = document.getElementById('form:yValue');
     if (yInput && yValue) {
-        yValue.textContent = parseFloat(yInput.value).toFixed(1);
+        const v = parseFloat(yInput.value);
+        if (isNaN(v)) {
+            yValue.textContent = '';
+        } else {
+            yValue.textContent = v.toFixed(1);
+        }
     }
 }
 

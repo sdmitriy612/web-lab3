@@ -117,11 +117,6 @@ public class FormBean implements Serializable {
         return point;
     }
 
-    public void clearForm() {
-        x = null;
-        y = 0.0;
-        r = 1.0;
-    }
 
     public void clearResults() {
         results.clear();
