@@ -2,7 +2,7 @@ class Graph {
     constructor(svgId) {
         this.svg = document.getElementById(svgId);
         this.baseScale = 120;
-        this.currentScale = this.baseScale; // Инициализируем значением по умолчанию
+        this.currentScale = this.baseScale;
     }
 
     draw(r) {
@@ -27,7 +27,6 @@ class Graph {
     }
 
     drawAxes() {
-        // Ось X
         const xLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         xLine.setAttribute('x1', '-180');
         xLine.setAttribute('y1', '0');
@@ -37,7 +36,6 @@ class Graph {
         xLine.setAttribute('stroke-width', '2');
         this.svg.appendChild(xLine);
 
-        // Ось Y
         const yLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         yLine.setAttribute('x1', '0');
         yLine.setAttribute('y1', '-180');
@@ -47,7 +45,6 @@ class Graph {
         yLine.setAttribute('stroke-width', '2');
         this.svg.appendChild(yLine);
 
-        // Стрелки
         const xArrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         xArrow.setAttribute('points', '180,0 170,-5 170,5');
         xArrow.setAttribute('fill', 'black');
@@ -59,11 +56,9 @@ class Graph {
         this.svg.appendChild(yArrow);
     }
 
-    // Рисуем области для заданного R (ОБНОВЛЕНО: выпуклая окружность)
     drawAreas(r) {
         const rPixels = r * this.currentScale;
 
-        // 1 четверть: прямоугольник (0 <= x <= R; 0 <= y <= R/2)
         const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
         rect.setAttribute('x', '0');
         rect.setAttribute('y', -rPixels / 2);
@@ -73,14 +68,12 @@ class Graph {
         rect.setAttribute('opacity', '0.7');
         this.svg.appendChild(rect);
 
-        // 2 четверть: ВЫПУКЛАЯ окружность (x*x + y*y <= R*R, x <= 0, y >= 0)
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         circle.setAttribute('d', `M 0,0 L ${-rPixels},0 A ${rPixels},${rPixels} 0 0,1 0,${-rPixels} Z`);
         circle.setAttribute('fill', 'lightblue');
         circle.setAttribute('opacity', '0.7');
         this.svg.appendChild(circle);
 
-        // 4 четверть: треугольник (гипотенуза через (0, -R) и (R, 0))
         const triangle = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
         triangle.setAttribute('points', `0,0 ${rPixels},0 0,${rPixels}`);
         triangle.setAttribute('fill', 'lightblue');
@@ -88,11 +81,9 @@ class Graph {
         this.svg.appendChild(triangle);
     }
 
-    // Рисуем подписи с R = значение
     drawLabels(r) {
         const rPixels = r * this.currentScale;
 
-        // Подписи осей
         const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         xLabel.setAttribute('x', '180');
         xLabel.setAttribute('y', '-5');
@@ -106,7 +97,6 @@ class Graph {
         yLabel.textContent = 'Y';
         this.svg.appendChild(yLabel);
 
-        // Метки с правильным масштабом
         const marks = [
             {x: -rPixels, y: -5, text: `-R`, anchor: 'middle'},
             {x: -rPixels/2, y: -5, text: `-R/2`, anchor: 'middle'},
@@ -129,9 +119,7 @@ class Graph {
         });
     }
 
-    // Добавить точку
     addPoint(x, y, isHit) {
-        // Проверка на корректность данных
         if (!this.currentScale || isNaN(x) || isNaN(y)) {
             console.error('Некорректные данные для точки:', x, y, this.currentScale);
             return;
@@ -147,13 +135,11 @@ class Graph {
         this.svg.appendChild(point);
     }
 
-    // Убрать все точки
     clearPoints() {
         const points = this.svg.querySelectorAll('.graph-point');
         points.forEach(p => p.remove());
     }
 
-    // Получить координаты клика
     getClickCoords(event) {
         const rect = this.svg.getBoundingClientRect();
         const svgX = event.clientX - rect.left - rect.width / 2;
@@ -166,5 +152,4 @@ class Graph {
     }
 }
 
-// Экспортируем класс глобально для использования в main.js
 window.Graph = Graph;

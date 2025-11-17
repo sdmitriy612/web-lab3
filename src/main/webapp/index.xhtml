@@ -40,6 +40,7 @@
                             <h:inputText id="x" value="#{formBean.x}"
                                         required="true"
                                         requiredMessage="Введите значение X"
+                                        converterMessage="X должен быть числом"
                                         validatorMessage="X должен быть в диапазоне [-3; 5]">
                                 <f:validateDoubleRange minimum="-3" maximum="5" />
                             </h:inputText>
@@ -81,7 +82,8 @@
                                             styleClass="submit-btn" />
                             <p:commandButton value="Очистить форму"
                                             action="#{formBean.clearForm}"
-                                            update="form"
+                                            update="x yInput yValue r messages"
+                                            oncomplete="updateGraph()"
                                             process="@this"
                                             ajax="true"
                                             styleClass="clean-btn" />
@@ -98,7 +100,6 @@
                         <h:inputHidden id="graphX" value="#{formBean.graphX}" />
                         <h:inputHidden id="graphY" value="#{formBean.graphY}" />
 
-                        <!-- Скрытая кнопка для отправки с графика -->
                         <h:commandButton id="submitGraph" action="#{formBean.checkPointFromGraph}" style="display: none;">
                             <f:ajax execute="graphX graphY r" render="resultsTable messages" onevent="handleAjaxComplete" />
                         </h:commandButton>
@@ -130,7 +131,7 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Дата запроса</f:facet>
-                        #{res.currentTime}
+                        #{res.formattedTime}
                     </h:column>
                 </h:dataTable>
             </div>

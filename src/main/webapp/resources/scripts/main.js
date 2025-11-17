@@ -1,34 +1,25 @@
-// Класс Graph будет доступен глобально через window после загрузки graph.js
 let graphDrawer;
 
-// Инициализация графика после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Проверяем что Graph загружен
     if (typeof Graph === 'undefined') {
         return;
     }
 
-    // Создаём экземпляр графика
     graphDrawer = new Graph('graph-svg');
 
-    // Рисуем график с R=1 по умолчанию
     const r = getSelectedR() || 1;
     graphDrawer.draw(r);
 
-    // Отрисовываем существующие точки
     redrawAllPoints();
 
-    // Обновляем значение слайдера
     updateYValue();
 });
 
-// Получить выбранное значение R
 function getSelectedR() {
     const rSelect = document.getElementById('form:r');
     return rSelect && rSelect.value ? parseFloat(rSelect.value) : null;
 }
 
-// Обновление графика при изменении R
 function updateGraph() {
     if (!graphDrawer) return;
 
@@ -39,7 +30,6 @@ function updateGraph() {
     redrawAllPoints();
 }
 
-// Перерисовка всех точек на графике
 function redrawAllPoints() {
     if (!graphDrawer) return;
 
@@ -48,7 +38,6 @@ function redrawAllPoints() {
 
     graphDrawer.draw(r);
 
-    // Точки берутся из DOM таблицы
     const rows = document.querySelectorAll('#form\\:resultsTable tbody tr');
     rows.forEach(row => {
         const cells = row.querySelectorAll('td');
@@ -57,13 +46,11 @@ function redrawAllPoints() {
             const yText = cells[1].textContent.trim();
             const hitText = cells[3].textContent.trim();
 
-            // Проверяем что данные не пустые
             if (!xText || !yText) return;
 
             const x = parseFloat(xText);
             const y = parseFloat(yText);
 
-            // Проверяем что парсинг прошёл успешно
             if (isNaN(x) || isNaN(y)) {
                 return;
             }
@@ -74,7 +61,6 @@ function redrawAllPoints() {
     });
 }
 
-// Обработка клика по графику
 function handleGraphClick(event) {
     const r = getSelectedR();
     if (!r) {
@@ -86,7 +72,6 @@ function handleGraphClick(event) {
 
     const coords = graphDrawer.getClickCoords(event);
 
-    // Подставляем координаты в скрытые поля
     const graphXField = document.getElementById('form:graphX');
     const graphYField = document.getElementById('form:graphY');
 
@@ -100,7 +85,6 @@ function handleGraphClick(event) {
     
 }
 
-// Обновление отображения значения слайдера
 function updateYValue() {
     const yInput = document.getElementById('form:yInput');
     const yValue = document.getElementById('form:yValue');
@@ -109,16 +93,8 @@ function updateYValue() {
     }
 }
 
-// Обработчик события AJAX для f:ajax
 function handleAjaxComplete(data) {
     if (data.status === 'success') {
         redrawAllPoints();
     }
 }
-
-// Экспортируем функции для использования в XHTML
-window.updateGraph = updateGraph;
-window.handleGraphClick = handleGraphClick;
-window.updateYValue = updateYValue;
-window.redrawAllPoints = redrawAllPoints;
-window.handleAjaxComplete = handleAjaxComplete;

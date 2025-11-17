@@ -1,27 +1,26 @@
 package ru.sdmitriy612;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
+import jakarta.inject.Inject;
 import ru.sdmitriy612.database.Point;
 import ru.sdmitriy612.database.PointService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @Named
 @ApplicationScoped
 public class FormBean implements Serializable {
 
-    // Поля формы
     private Double x;
     private Double y = 0.0;
     private Double r = 1.0;
 
-    // Поля для графика
     private Double graphX;
     private Double graphY;
 
@@ -71,7 +70,8 @@ public class FormBean implements Serializable {
         return results;
     }
 
-    private final PointService pointService = new PointService();
+    @Inject
+    private PointService pointService;
 
     @PostConstruct
     public void init() {
@@ -92,7 +92,6 @@ public class FormBean implements Serializable {
         results.add(0, result);
     }
 
-    // Отправка формы
     public void checkPoint() {
         if (!validate(x, y, r)) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -107,7 +106,6 @@ public class FormBean implements Serializable {
                         point.isHit() ? "Точка попала в область" : "Точка не попала в область"));
     }
 
-    // Отправка с графика
     public void checkPointFromGraph() {
         checkPointAndSave(graphX, graphY, r);
     }
@@ -119,14 +117,12 @@ public class FormBean implements Serializable {
         return point;
     }
 
-    // Очистка формы
     public void clearForm() {
         x = null;
         y = 0.0;
         r = 1.0;
     }
 
-    // Очистка результатов
     public void clearResults() {
         results.clear();
         pointService.clearAll();

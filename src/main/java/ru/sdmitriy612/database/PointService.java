@@ -4,7 +4,9 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class PointService {
 
     @Inject

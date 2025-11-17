@@ -3,7 +3,6 @@ package ru.sdmitriy612;
 import ru.sdmitriy612.database.Point;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 public class Checker implements Serializable {
 
